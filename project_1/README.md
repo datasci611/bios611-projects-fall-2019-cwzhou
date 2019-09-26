@@ -1,13 +1,14 @@
-Christina Zhou
+---
+title: "Project 1 README"
+author: "Christina Zhou"
+date: "9/25/2019"
+output: html_document
+---
+This data is from Urban Ministries of Durham (UMD), which focuses on lowering the community's rate of homelessness by providing food, shelter and other resources. Their website is here: http://www.umdurham.org/.
 
-In markdown, include the following:
+The data includes variables such as number of people in the family for which food was provided, money provided to clients and more. A full list of variables can be found here: https://github.com/biodatascience/datasci611/blob/gh-pages/data/project1_2019/UMD_Services_Provided_metadata_20190719.tsv.
 
-* A description of the background and the questions you hope to address 
-* A description of the data source and three variables you think will be useful 
-* A description of the one analysis approach you will take 
+In my analysis, I focused on comparison trends between families and single individuals. For example, do individuals with larger families (defined based onfood provided for) tend to visit to UM more often? Do families take more food than individuals without families? This information would be likely useful for UM to analyze who is more likely to make more effort to come find them and how long often they might visit. Thus, variables of interest include date, Client file number, food provided for, pounds of food, and self-created variables such as year, number of visits, and family indicator.
 
-This data is from Urban Ministries, which focuses on lowering the community's rate of homelessness by providing food, shelter and other resources. The data includes variables such as number of people in the family for which food was provided, money provided to clients, etc. I would like to focus my project 1 on trends or correlations, such as do individuals with larger families (food provided for) tend to return to UM more often? Or are individuals with babies (diapers) more likely to buy bus tickets to visit than indivudals without need of diapers (assume, no babies). This information would be likely useful for UM to analyze who is more likely to make more effort to come find them. 
+The data can be found in the data folder of the project1 folder. In the file project1.R in the scripts folder, one can find the entire analysis R script. Project1.Rmd contains the R markdown file. The output of this file is Project1.html. Figures from the output are also in the results folder.
 
-Although these are generic question, I would like to focus on these types of simple comparisons (specifically, just one comparison, although I havent decided which one yet). Thus, variables of interst include date, Client file number, merge, and bus ticket/diapers/food provided for, etc. 
-
-One analysis approach to analyze associations I might take is Fisher's Exact test, due to large missing values, so that cell counts might be small.

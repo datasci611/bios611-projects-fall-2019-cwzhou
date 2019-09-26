@@ -1,0 +1,173 @@
+---
+title: "BIOS 611 Project 1"
+author: "Christina Zhou"
+date: "9/25/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(ggplot2)
+library(dplyr)
+#project 1
+setwd("~/Desktop/611 Notes/bios611-projects-fall-2019-cwzhou/project_1/scripts")
+```
+
+
+#### Data source
+
+Urban Ministries of Durham (UMD) is a non-profit organization that focuses on lowering the community's rate of homelessness by providing food, shelter and other resources to those in need. In 2001, three organizations (Durham Community Shelter for HOPE, St. Philip’s Community Cafe, and the United Methodist Mission Society) merged to create UMD as it exists today.
+
+```{r urban, echo=FALSE}
+
+#load dataset
+urban <- read.delim("~/Desktop/611 Notes/bios611-projects-fall-2019-cwzhou/project_1/data/UMD_Services_Provided_20190719.tsv", header=T)
+#View(urban)
+```
+
+UMD has been collecting data about people who utilize its resources for decades. This data includes an identifier (ID), date of visit, number of people the food from that visit provided for, pounds of food taken from food pantry, amount of clothing taken from clothing closet, and more. The total number of observations of this data is `r nrow(urban)`. Since UMD as it is known today was created in 2001, we truncate our dataset to be collected data from January 1, 2001 to the last consecutive date towards the end, which is July 17, 2019.
+
+For this project, we focus our data analysis on examining the relationship of number of visits and average pounds of food per visit between family households and single households. We would expect family households to obtain more food, and perhaps have less visits to UMD (maybe because they are trying harder to find a sustainable home due to more members at stake). To do this, we define an observation as part of a family household if the number of people the food given that visit was provided for more than 1 person, and as a single household otherwise. Because of this, we want to limit our population to those who are not missing data for the Food.Provided.for (number of people the food given that visit was provided for) and Food.Pounds (the number of pounds given for that visit) variables.
+
+
+```{r edit, echo=FALSE}
+urban$Date <- as.Date(urban$Date, "%m/%d/%Y")
+urban$Year <- format(as.Date(urban$Date, format="%d/%m/%Y"),"%Y")
+df1 <- filter(urban, urban$Date <= Sys.Date()) #remove dates from FUTURE
+df2 = df1 %>%
+  arrange(Client.File.Number,Date) %>% 
+  select(Date, Client.File.Number,Food.Provided.for, Food.Pounds) %>%
+  filter(Date >= "2001-01-01")%>% #to stay up to date with current trends, we will only examine data in the last 10 years (2001-01-01 to 2019-08-31)
+  filter(Date <= "2019-07-17") %>%
+  drop_na(Food.Provided.for, Food.Pounds) %>% #only keep rows that do not have missing variables food.provided.for and food.pounds
+  group_by(Client.File.Number) %>%
+  summarise(no_dates = n(),
+            max_food = max(Food.Provided.for),
+            min_food = min(Food.Provided.for),
+            mean_food_pounds_per_day = mean(Food.Pounds))
+
+df1 %>%
+  arrange(Client.File.Number,Date) %>% 
+  select(Client.File.Number,Food.Provided.for, Food.Pounds,Year) %>%
+  filter(Year >= "2001")%>% #only select observations from 2001 onward
+  drop_na(Food.Provided.for, Food.Pounds) %>% #only keep rows that do not have missing variables food.provided.for and food.pounds
+  group_by(Client.File.Number)  %>%
+  summarize(no_visits = n(),
+            first_year = as.numeric(first(Year)),
+            last_year = as.numeric(last(Year)),
+            range_years = last_year-first_year+1) %>%
+  arrange(desc(range_years, no_visits, as.date(first_year)))
+```
+
+
+The table above summarizes the number of visits, number of years of visits, and first and last year of each visit that each household has. This table has been sorted in descending order by range of visited years, total number of visits, and the first year of visit.
+
+Since we are primarily interested in the relationship between household type for this analysis, we subset our analysis population further by only keeping observations with the same number of family members for every visit. We do this because we want to keep consistency in our dataset in terms of defining family vs. single households. We note that changing this subset may be done in a different analysis if a later question of interest involves examining changes number of family household over time. Additionally, we remove observations with who do not take food from UMD (meaning, the maximum pounds of food for all visits is 0) since we are only examining subjects who take food. After examining our population, we see that there is one observation with 200 family members. Since this is an extreme outlier, and likely a mistake, we remove this observation from our analysis. Lastly, we remove observations with more than an average of 100 pounds of food per day, since there was a big jump from less than 100 lbs to over 150 lbs (with few observations). In the table below, we display the top 6 households sorted by average pounds of food from the food pantry per day in descending order. For example, the household with the largest average pounds of food per day is household 15022 with about 86 lbs, with a total of 7 visits and 4 total members in the family.
+
+```{r test1, echo=FALSE}
+
+test1 = df2 %>% filter(max_food==min_food) %>% #subset those with same number of family members (1+) each visit
+  filter(max_food >0) %>% #remove observations who do not take food from UMD since we are only examining those who take food
+  filter(max_food <= 100) %>% #remove the observation with 200 family members (likely a typo)
+  filter(mean_food_pounds_per_day <= 100) #remove observations with more than an average of 500 pounds of food per day
+test1$family = as.factor(ifelse(test1$max_food>1,1,0)) #create indicator: if food.provided.for > 1 then family = 1 else family = 0
+#define family as more than 1 person, as assumed by "provided.food.for"
+#7423 observations
+
+#View(test1)
+head(arrange(test1, desc(mean_food_pounds_per_day)))
+```
+
+
+We subset our analysis population further by only keeping observations with the same number of family members for every visit. We do this because we want to keep consistency in our dataset in terms of defining family vs. single households. We note that changing this subset may be done in a different analysis if a later question of interest involves examining changes number of family household over time. Additionally, we remove observations with who do not take food from UMD (meaning, the maximum pounds of food for all visits is 0) since we are only examining subjects who take food. After examining our population, we see that there is one observation with 200 family members. Since this is an extreme outlier, and likely a mistake, we remove this observation from our analysis. Lastly, we remove observations with more than an average of 100 pounds of food per day, since there was a big jump from less than 100 lbs to over 150 lbs (with few observations). Thus, our final analysis population is `r nrow(test1)` households. From the table below, we can see that the split between number of family households and number of single households is relatively even. Recall the variable family is an indicator where family = 1 means the household is a family household and family = 0 means the household is a single household.
+
+```{r household split, echo=FALSE}
+test1 %>%
+  group_by(family) %>%
+  summarise(total_family = n())
+#    Family      Total_family
+#      0         3538
+#      1         3885
+```
+
+Figure 1 below displays two boxplots, comparing the average number of pounds of food taken from the UMD food pantry per day between household types (single-member housholds vs. family households). As expected, those with families have a higher overall mean per day. Additionally, there are more and larger outliers for larger average pounds per day for the family households than single-member households. Similarly, single-member households have more lower outliers for average pounds per day compared to family households. This is expected, since family households have more people to feed than single households.
+```{r ggplots1, echo=FALSE}
+####################FIG 1######################
+#Boxplot of avg pounds of food per household per day, comparing single-member households vs. family households
+#As expected, those with families have much higher averages per day, also higher outliers
+test1 %>% ggplot(aes(x=family, y=mean_food_pounds_per_day, fill=family))+
+  geom_boxplot(aes(fill=family))+
+  theme_bw() + theme(panel.border = element_blank())+
+  labs(x="Household Type",
+       y="Average number of pounds of food per day",
+       title ="Fig 1: Boxplot of average pounds of food per day by household type")+
+  scale_fill_discrete(name="Household Type",
+                      breaks=c("0", "1"),
+                      labels=c("Single", "Family"))+
+  scale_x_discrete(labels=c("Single","Family"))
+ggsave("Project1_Fig1_Box.png", height=5, width=7)
+```
+
+```{r ggplots2, echo=FALSE}
+####################FIG 2######################
+#Boxplot of total number of visits in last 10 years per household, comparing single-member households vs. family households
+#More (and more extreme) outliers for single households, wider spread, than family households
+test1 %>% 
+  ggplot(aes(x=family, y= no_dates, fill=family))+
+  geom_boxplot(aes(fill=family))+
+  theme_bw() + theme(panel.border = element_blank())+
+  labs(x="Household Type",
+       y="Total number of visits per household",
+       title ="Fig 2: Boxplot of total visits by household type")+
+  scale_fill_discrete(name="Household Type",
+                      breaks=c("0", "1"),
+                      labels=c("Single", "Family"))+
+  scale_x_discrete(labels=c("Single","Family"))
+ggsave("Project1_Fig2_Box.png", height=5, width=5)
+```
+
+
+In Figure 3 above, we see two boxplots of total number of visits in last 10 years per household, comparing single-member households vs. family households. From this figure, we can see that for both household types, the overall average number of total visits in the last 10 years is low. It is also seen from Figure 3 that that there is a larger quantity of outliers outliers for single households than family households. The variance is larger as a result (wider spread). Similarly, some of these outliers are more extreme than those of the family household total visits. One reason for the larger variance in single family household is that single people may come in whenever they need to, but families may try to be more consistent since they may be more aware of the fact that they will need food. This is possibly because of the feeling of higher risk of taking care of someone more than just oneself.
+
+To examine the data from Figure 2 in a different way, Figure 3a is a histogram comparison of total number of visits between families vs single people. Generally, we can see there are more visits from single households, as well as the single household number of visits distribution having a greater spread. We note that for both households, the largest count of total number of visits is low, close to 1. Figure 3b gives us a closer look at the bulk of the distribution. We truncate our dataset to households with no more than 10 total visits to UMD within our date range, and examine the distributions. We can see more clearly that there are more family than single visits, although there are more long-term visits from single households. As mentioned previously, this could be due to family households trying harder to find homes for their family (rather than just theirselves.)
+
+```{r ggplots3, echo=FALSE}
+####################FIG 3a######################
+#Histogram comparison of total number of visits between families vs single people.
+#More visits from single households, as well as greater spread.
+#For both types, largest count is LOW-count visits like 1-3 etc
+test1 %>% 
+    filter(no_dates >10) %>% #removing extreme outliers for no_dates (mostly for single household)
+  ggplot(aes(x=no_dates, group=family))+
+  geom_bar(position="dodge",aes(fill=family)) +
+  theme_bw() + theme(panel.border = element_blank())+
+  labs(x="Number of Visits",
+       y="Total Households",
+       title ="Fig 3a: Distribution of number of visits greater than 10 by household type",
+       fill="Household Type")+
+  scale_fill_discrete(name="Household",
+                      breaks=c("0", "1"),
+                      labels=c("Single", "Family"))
+
+
+####################FIG 3b######################
+test1 %>%
+  filter(no_dates <=10) %>% #removing extreme outliers for no_dates (mostly for single household)
+  ggplot(aes(x=no_dates, group=family)) +
+  geom_bar(position="dodge",aes(fill=family))+
+  theme_bw() + theme(panel.border = element_blank())+
+  labs(x="Number of Visits",
+       y="Total Households",
+       title ="Fig 3b: Distribution of number of visits (up to 10) by household type",
+       fill="Household Type")+
+  scale_fill_discrete(name="Household",
+                      breaks=c("0", "1"),
+                      labels=c("Single", "Family"))
+#define family as more than 1 person, as assumed by "provided.food.for"
+ggsave("Project1_Fig3_Bar.png", height=4, width=7)
+#More family single visits, more long-term visits from single households
+#Could be due to family households try harder to escape homelessness for their kids?
+```
+
+In conclusion, we examined two trends comparing household types. The first trend confirms that families have on average greater average pounds of food per day from the pantry. The second trend reveals that families tend to visit less often than single households. However, most households for both types tend to have less visits compared to more visits.
