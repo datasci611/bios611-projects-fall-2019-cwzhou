@@ -46,7 +46,7 @@ df1 <- filter(urban, urban$Date <= Sys.Date())
 df2 = df1 %>%
   arrange(Client.File.Number,Date) %>% 
   select(Date, Client.File.Number,Food.Provided.for, Food.Pounds,Year) %>%
-  filter(Date >= "2001-01-01")%>% #to stay up to date with current trends, we will only examine data in the last 10 years (2001-01-01 to 2018-12-31)
+  filter(Date >= "2001-01-01")%>% #to stay up to date with current trends, we will only examine data in the 20 years (2001-01-01 to 2018-12-31)
   filter(Date <= "2018-12-31") %>%
   drop_na(Food.Provided.for, Food.Pounds)  #only keep rows that do not have missing variables food.provided.for and food.pounds
   
@@ -144,11 +144,11 @@ ggsave("Project1_Fig1_Box.png", height=5, width=7)
 ```
 
 
-In Figure 2a below, we see two boxplots of total number of visits in last 10 years per household, comparing single-member households vs. family households. From this figure, we can see that for both household types, the overall average number of total visits in the last 10 years is low. It is also seen from Figure 2a that that there is a larger quantity of outliers for single households than family households. The variance is larger as a result (wider spread). Similarly, some of these outliers are more extreme than those of the family household total visits. One reason for the larger variance in single family household is that single people may come in whenever they need to, but families may try to be more consistent since they may be more aware of the fact that they will need food. This is possibly because of the feeling of higher risk of taking care of someone more than just oneself. Figure 2b compares the boxplots but only for total number of visits that are less than or equal to 60.
+In Figure 2a below, we see two boxplots of total number of visits in last 20 years per household, comparing single-member households vs. family households. From this figure, we can see that for both household types, the overall average number of total visits in the last 20 years is low. It is also seen from Figure 2a that that there is a larger quantity of outliers for single households than family households. The variance is larger as a result (wider spread). Similarly, some of these outliers are more extreme than those of the family household total visits. One reason for the larger variance in single family household is that single people may come in whenever they need to, but families may try to be more consistent since they may be more aware of the fact that they will need food. This is possibly because of the feeling of higher risk of taking care of someone more than just oneself. Figure 2b compares the boxplots but only for total number of visits that are less than or equal to 60.
 
 ```{r ggplots2, echo=FALSE}
 ####################FIG 2a######################
-#Boxplot of total number of visits in last 10 years per household, comparing single-member households vs. family households
+#Boxplot of total number of visits in 20 years per household, comparing single-member households vs. family households
 #More (and more extreme) outliers for single households, wider spread, than family households
 test1 %>% 
   ggplot(aes(x=family, y= Number_of_Visits, fill=family))+
@@ -162,7 +162,7 @@ ggsave("Project1_Fig2a_Box.png", height=5, width=5)
 
 
 
-#Boxplot of total number of visits less than 60 in last 10 years per household, comparing single-member households vs. family households
+#Boxplot of total number of visits less than 60 in 20 years per household, comparing single-member households vs. family households
 test1 %>% 
   filter(Number_of_Visits <60) %>% #removing extreme outliers for Number_of_Visits (mostly for single household)
   ggplot(aes(x=family, y= Number_of_Visits, fill=family))+

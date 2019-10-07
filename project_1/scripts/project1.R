@@ -25,7 +25,7 @@ df1 <- filter(urban, urban$Date <= Sys.Date())
 df2 = df1 %>%
   arrange(Client.File.Number,Date) %>% 
   select(Date, Client.File.Number,Food.Provided.for, Food.Pounds,Year) %>%
-  filter(Date >= "2001-01-01")%>% #to stay up to date with current trends, we will only examine data in the last 10 years (2001-01-01 to 2018-12-31)
+  filter(Date >= "2001-01-01")%>% #to stay up to date with current trends, we will only examine data in the last 20 years (2001-01-01 to 2018-12-31)
   filter(Date <= "2018-12-31") %>%
   drop_na(Food.Provided.for, Food.Pounds)  #only keep rows that do not have missing variables food.provided.for and food.pounds
 
@@ -109,7 +109,7 @@ ggsave("Project1_Fig1_Box.png", height=5, width=7)
 
 
 ####################FIG 2a######################
-#Boxplot of total number of visits in last 10 years per household, comparing single-member households vs. family households
+#Boxplot of total number of visits in last 20 years per household, comparing single-member households vs. family households
 #More (and more extreme) outliers for single households, wider spread, than family households
 test1 %>% 
   ggplot(aes(x=family, y= Number_of_Visits, fill=family))+
@@ -122,7 +122,7 @@ test1 %>%
 ggsave("Project1_Fig2a_Box.png", height=5, width=5)
 
 
-#Boxplot of total number of visits in last 10 years per household, comparing single-member households vs. family households
+#Boxplot of total number of visits in last 20 years per household, comparing single-member households vs. family households
 #More (and more extreme) outliers for single households, wider spread, than family households
 test1 %>% 
   filter(Number_of_Visits <60) %>% #removing extreme outliers for Number_of_Visits (mostly for single household)
