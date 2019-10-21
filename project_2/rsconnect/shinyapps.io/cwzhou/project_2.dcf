@@ -5,6 +5,6 @@ account: cwzhou
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 1359550
-bundleId: 2522837
+bundleId: 2522884
 url: https://cwzhou.shinyapps.io/project_2/
-when: 1571700347.21044
+when: 1571701515.62258
