@@ -1,127 +1,116 @@
-#Project 2
-#user interface (UI) and server pieces
-library(shiny)
-library(shinydashboard)
+## app.R ##
+#library(shinydashboard)
+#library(shiny)
+#library(rsconnect)
 #setwd("~/Desktop/611 Notes/bios611-projects-fall-2019-cwzhou/project_2")
 source("helper_functions.R")
 
-# Define UI for app that displays Project 2 analysis dashboard----
-ui <- dashboardPage(
-  
-  # Title ----
-  dashboardHeader("Project 2 Urban Ministries Analysis Dashboard"),
-  
-  # Sidebar layout with menu options ----
+ui = dashboardPage(
+  dashboardHeader(title = "Project 2 Urban Ministries Analysis Dashboard",
+                  titleWidth = 450
+  ),
+  ## Sidebar content
   dashboardSidebar(
     sidebarMenu(
-      menuItem("Introduction", tabName = "intro", icon = icon("Introduction")),
-      menuItem("Data Source", tabName = "data", icon = icon("Data Source")),
-      menuItem("Aims", tabName = "aims", icon = icon("Aims")),
-      menuItem("Data Analysis", tabName = "analysis", icon = icon("Data Analysis"),
-               menuSubItem("Question 1-3", tabName = "Q1-3", icon = icon("Question 1-3")),
-               menuSubItem("Question 4", tabName = "Q4", icon = icon("Question 2")))
+      menuItem("Introduction", tabName = "background", icon = icon("home")),
+      menuItem("Goals", tabName = "goals", icon = icon("star")),
+      menuItem("Data Source", tabName = "data", icon = icon("database")),
+      menuItem("Data Analysis", tabName = "analysis", icon = icon("chart-bar"))
     )
   ),
   
-  # Body to display plots and analysis
+  ## Body content
   dashboardBody(
     tabItems(
-      # Background
+      # FIRST tab content
       tabItem(tabName = "background",
-              htmlOutput("background")
-      ), 
-      
-      # Purpose of Analysis
-      tabItem(tabName = "purpose",
-              htmlOutput("purpose")
+              h2("Background"),
+              textOutput("background")
       ),
       
-      # Question 1-3
-      tabItem(tabName = "Q1-3",
+      # SECOND tab content
+      tabItem(tabName = "goals",
+              h2("Project Aims"),
+              textOutput("goals")
+      ),      
+      
+      # THIRD tab content
+      tabItem(tabName = "data",
+              h2("Data Source and Data Cleaning"),
+              textOutput("data")
+      ),
+      
+      # FOURTH tab content
+      tabItem(tabName = "analysis",
+              h2("Data Analysis: Results and Conclusions"),
               fluidRow(
-                # Sidebar to choose a type of help UMD provided
-                sidebarPanel(
-                  htmlOutput("trend_text"),
-                  selectInput('trend_variable',
-                              'Type of Help UMD Provided',
-                              c("Number of People Receiving Food", "Food Pounds", "Clothing Items")
-                  )
+                
+                box(radioButtons("radio", label = "Select a variable",
+                                 choices = c("Food.Provided.for", "Food.Pounds","Clothing.Items",
+                                             "Diapers", "School.Kits", "Hygiene.Kits")),
+                    textOutput("text1")
                 ),
                 
-                # Trend of a variable over time
-                mainPanel(
-                  plotOutput("trend_plot"),
-                  htmlOutput("trend_interpretation")
+                box(
+                  selectInput("date1", h3("Select Year"), 
+                              choices = list("2001", "2002",
+                                             "2003", "2004",
+                                             "2005", "2006",
+                                             "2007", "2008",
+                                             "2009", "2010",
+                                             "2011", "2012",
+                                             "2013", "2014",
+                                             "2015", "2016",
+                                             "2017", "2018"), 
+                              selected = 1)
                 )
+              ),
+              mainPanel(
+                plotOutput(outputId = "varPlot")#,
+                #    dataTableOutput(outputId = "popTable")
               )
-      ),
-
+      )
     )
   )
 )
 
 
 
-# Define server
-server <- function(input, output) {
-  set.seed(435)
+server = function(input, output) {
   
-  # background
-  output$background <- renderUI({
-    HTML(paste(umd_description, data_description, sep="<br/>"))
+  # INTRODUCTION/BACKGROUND
+  output$background <- renderText({
+    paste(bg1, bg2, ref1[1], ref1[2])
   })
   
-  # Purpose of analysis
-  output$purpose <- renderUI({
-    HTML(paste("<ul><li>", purpose[1], 
-               "</li><li>", purpose[2], 
-               "</li><li>", purpose[3],
-               "</li><li>", purpose[4], "</li><ul>"))
+  # GOALS
+  output$goals<- renderText({
+   paste(g1)
+   paste(g2[1])
   })
   
-  # Interpretation of trend sidebar
-  output$trend_text <- renderUI({
-    HTML("Please select a type of help UMD provided and view its trend over time:")
+  # DATA SOURCE and DATA CLEANING
+  output$data<- renderText({
+    paste(ds1,ds2, ds3)
   })
   
-  # Plot of trend_variable over time
-  output$trend_plot <- renderPlot({
-    trend(input$trend_variable)
+  # ANALYSIS
+  
+  output$text1 <- renderText({
+    paste("You selected", toString(input$radio),"NOTE: we omit rows with missing", toString(input$radio), "Thus, each dataset is different.")
   })
   
-  # Interpretation of trend plot
-  output$trend_interpretation <- renderUI({
-    HTML(paste("<ul><li>", trend_interpretation[input$trend_variable][1,], 
-               "</li><li>", trend_interpretation[input$trend_variable][2,], 
-               "</li><li>", trend_interpretation[input$trend_variable][3,], "</li><ul>"))
+  output$varPlot <- renderPlot({
+    helper2(input$radio,input$date1)
   })
   
-  # Average food per person plot for Question 4
-  output$average_food <- renderPlot({
-    average_food_plot
-  })
   
-  # Interpretation of plot in Question 4
-  output$average_food_interpretation <- renderUI({
-    HTML(paste("<ul><li>", average_food_interpretation[1], 
-               "</li><li>", average_food_interpretation[2], 
-               "</li><li>", average_food_interpretation[3],
-               "</li><li>", average_food_interpretation[4],
-               "</li><li>", average_food_interpretation[5],
-               "</li><li>", average_food_interpretation[6],
-               "</li><li>", average_food_interpretation[7],
-               "</li><ul>"))
-  })
-  
-  # Estimate of food pounds in calculator
-  output$food_pounds <- renderText({
-    if (input$group==1) {
-      paste('Estimated Food Pounds UMD should provide for', input$number_of_people, ' people in Group One:', round(model$one$coefficients * input$number_of_people, 2), 'pounds')
-    } else {
-      paste('Estimated Food Pounds UMD should provide:', input$number_of_people, ' people in Group Two:',round(model$two$coefficients * input$number_of_people, 2), 'pounds')
-    }})
+  #  output$popTable <- renderTable({
+  #    helper_1(input$radio, input$date1)
+  #  })
   
 }
 
-# Run the application 
-shinyApp(ui = ui, server = server)
+shinyApp(ui, server)
+
+
