@@ -18,6 +18,8 @@ g1 = c("For this project, after data cleaning, we have the following aims:")
 ds1 = c("The data for our analysis is from UMD. UMD has been collecting data about people who utilize its resources for decades. This data includes an identifier (ID), date of visit, number of people the food from that visit provided for, pounds of food taken from food pantry, amount of clothing taken from clothing closet, and more. The total number of observations of this data is 79838.")
 ds3 = c("Variable descriptions for the UMD data can be found here: https://github.com/biodatascience/datasci611/blob/gh-pages/data/project1_2019/UMD_Services_Provided_metadata_20190719.tsv")
 ds2 = c("Since UMD as it is known today was created in 2001, we truncate our dataset to be collected data from January 1, 2001 to the last date of a full year of data, which is December 31, 2018. Since the data for 2019 is not complete, we omit data that was collected after December 31, 2018.")
+ds4 = c("For our analysis in the next tab, we plot the data by year. Since this data is abundant, we remove missing data within each variable for the variable examined. Thus our datasets are all different for each graph. Additionally, we remove any outliers to have a better view of the data.")
+ds5 = c("Outliers include ")
 
 # DATA CLEANING
 #load dataset
@@ -45,8 +47,14 @@ helper_1 = function(var,date){
     arrange(Client.File.Number,Date,Year)  %>%
     drop_na(var) %>% 
     filter(Year %in% date) %>%
-    select(Client.File.Number,Date,var) 
-  }
+    select(Client.File.Number,Date,var) #%>% #outliers - fix to remove them
+   # mutate(lowerq = quantile(var)[2]) %>%
+  #  mutate(upperq = quantile(var)[4]) %>%
+  #  mutate(iqr = upperq - lowerq) %>%
+  #  mutate(extreme.threshold.upper = (iqr * 3) + upperq) %>%
+  #  mutate(extreme.threshold.lower = lowerq - (iqr * 3)) %>%
+  #  filter(extreme.threshold.upper >= var &  extreme.threshold.lower >= var)
+}
 
 helper2 = function(var,date){
  newdf = helper_1(var,date)
