@@ -1,0 +1,70 @@
+---
+title: "BIOS 611 Project 3 DRAFT"
+author: "Christina Zhou"
+date: "11/18/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(ggplot2)
+library(tidyverse)
+
+setwd("~/Desktop/611 Notes/bios611-projects-fall-2019-cwzhou/project_3/data")
+dat = read.csv("export_dataframe.csv", header = TRUE)
+```
+
+## Introduction
+
+Urban Ministries of Durham (UMD) is a non-profit organization that serves its community by offering servies that help reduce the rate of homelessness in Durham, NC. The website for UMD is www.umdurham.org. One service UMD offers is shelter. This service is meant to provide struggling individuals or families with a safe place to stay until they are able to get on their own. In the meantime, UMD provides resources to help this happen, such as helping with finding jobs or providing professional clothes for interviews, etc.
+
+## Data Cleaning
+
+There is a lot of data from UMD regarding who enters and exits the shelter resource of the organization. This data identifies each individual as a client, and records one's age, gender, ethnicity, race, entry and exit dates, and reasons for leaving UMD, as well as other data collection. For this project, we focus on any association between duration of stay at UMD and gender, race, ethnicity, and age at entry. We define duration of stay as number of nights spent at UMD, calculated from the date of entry and the date of exit. We merge the two datasets and preprocess the two datasets in python. For this project, we remove any data with missing data, since the fraction of those with any missing data is less than 1%. In the end, we have a total of `r nrow(dat)` observations.
+
+## Exploratory Analysis
+
+In the section below, we look at different plots of the exploratory variables (age at entry, gender, ethnicity, and race) to get an idea of how the data looks.
+
+```{r EDA}
+
+dat_noID = dat[,-c(1,2,3,4)]
+summary(dat_noID)
+
+dat %>%
+  ggplot(aes(x=Client.Primary.Race)) +
+  geom_bar() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+dat %>%
+  ggplot(aes(x=Client.Gender)) +
+  geom_bar() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+dat %>%
+  ggplot(aes(x=Client.Ethnicity)) +
+  geom_bar() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+```
+
+Below is a plot of comparison of age at entry by gender.
+
+```{r Comparison, echo=FALSE}
+dat$Client.Gender <- as.factor(dat$Client.Gender)
+ggplot(dat, aes(x = dat$Client.Age.at.Entry)) + geom_histogram() + facet_wrap(~Client.Gender)
+```
+
+## Analysis
+
+We naively fit the simple linear regression model below to analyze the association between UMD stay duration and our covariates. We will fit a more appropriate model for the final analysis and interpret the coefficients by the final due date.
+
+```{r pressure1, echo=FALSE}
+mod1 = lm(formula = Total.Nights ~ Client.Gender + Client.Age.at.Entry + Client.Ethnicity + Client.Primary.Race, data = dat)
+summary(mod1)
+```
+
+## Conclusions
+
+Our conclusions are dependent on the final analysis.
