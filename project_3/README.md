@@ -10,8 +10,4 @@ Our question of interest is how does length of stay at the UMD shelter (determin
 
 There is a lot of potential data for this project. A list of all possible datasets can be found here: https://github.com/biodatascience/datasci611/tree/gh-pages/data/project2_2019. For this project, we focus on the following datasets: CLIENT_191102.tsv and ENTRY_EXIT_191102.tsv.
 
-The project 3 repo is as follows: The specific datasets of interest can be found in the data subfolder. Data from after wrangling can also be found here (marked as export_dataframe.csv). In the scripts subfolder, one can find the Python wrangling file, R analysis code files, Makefile, Docker file, and R Markdown file, along with the html R markdown output. The corresponding results are saved in the results folder.
-
-
-
-Draft due date: need to fix Makefile for final project.
+The project 3 repo is as follows: The specific datasets of interest can be found in the data subfolder. Data from after wrangling can also be found here (marked as export_dataframe.csv). In the scripts subfolder, one can find the Python wrangling file, R analysis code files, Makefile, Docker file, and R Markdown file, along with the html R markdown output.
