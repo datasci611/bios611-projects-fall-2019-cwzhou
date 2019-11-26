@@ -1,5 +1,5 @@
-.PHONY: project3
-project3: 
-	docker image build -t project3 .
-	python Wrangling_Project3.py
-	Rscript -e "library(rmarkdown); rmarkdown::render('bios611_project3.Rmd', 'html_document')"
+build-image: Dockerfile
+	docker build -t mf2g -f Dockerfile . && touch $@
+export_dataframe.csv:
+	docker run -d --rm -v "$(pwd):$(pwd)" -w "$(pwd)" jupyter/datascience-notebook && touch $@
+	python Wrangling_Project3.py $@
