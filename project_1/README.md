@@ -1,4 +1,4 @@
-### Project 1 README
+# Project 1 README
 ## Christina Zhou
 ## 9/25/2019
 
