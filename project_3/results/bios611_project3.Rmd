@@ -1,7 +1,7 @@
 ---
-title: "BIOS 611 Project 3 DRAFT"
+title: "BIOS 611 Project 3"
 author: "Christina Zhou"
-date: "11/20/2019"
+date: "12/1/2019"
 output: html_document
 ---
 
@@ -11,8 +11,8 @@ knitr::opts_chunk$set(echo = TRUE)
 library(ggplot2)
 library(tidyverse)
 
-#setwd("~/Desktop/611 Notes/bios611-projects-fall-2019-cwzhou/project_3/data")
-dat = read.csv("export_dataframe.csv", header = TRUE)
+#setwd("~/Desktop/611 Notes/bios611-projects-fall-2019-cwzhou/project_3")
+dat = read.csv("data/export_dataframe.csv", header = TRUE)
 ```
 
 ## Introduction
