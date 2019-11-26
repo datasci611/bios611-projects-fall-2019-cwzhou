@@ -1,0 +1,38 @@
+Dear cwzhow,
+
+Splendid job! I could learn a lot of things from your project and thanks so much for your hard work. Below, I described several points that could be improved and suggest specific ways to improve for your first project. I hope these suggestions will be of help.
+
+1. Is the project organized modularly, with Make as the workflow manager?
+This project exploited Make functions efficiently as the workflow manager and kept code succinct and readable.
+
+2. Does the project use both Python (Pandas specifically) and R (Tidyverse specifically) scripts?
+Yes, this project uses both Python and R scripts.
+
+3. Is Docker used to define execution environments appropriately?
+Yes. For your information - please refer to the in-class exercise: https://github.com/mbi2gs/its_blast_demo/blob/master/Makefile.
+
+4. Are the plots appropriate for the data types, the hypotheses being tested, and the points being communicated?
+Yes. I suggest you show the descriptive analysis tables, in addition to your graphs. I highly recommend the "ggally" R package. The gallery makes a focus on the tidyverse and ggplot2 and provide really beautiful and colorful plots - like an art gallery.
+https://www.r-graph-gallery.com/199-correlation-matrix-with-ggally.html
+
+5. How can the project be organized or documented more clearly?
+I like your introduction about the purpuse of using each of the programs, such as "Our goal is to use Makefile to organize the analysis in a way that allows future repetition easily accessible." I suggest you tease out the statistical analysis and data management part, specifying each of your research questions.
+
+6. Is the purpose of the project communicated clearly?
+I recommend you articulate descriptive statistics in the Introduction part, like “UMD provided ___ emergency shelters to homeless neighbors (___ unique individuals) and ended homelessness for ___ individuals.” 
+
+7. Does the purpose of the project make sense from the client’s point of view? How could the project better serve the client?
+We can contemplate how these findings through Shiny fit into the context of City of Durham Community Indicators, such as median gross monthly rent and unemployment rates. we can use the Durham's Open Data portal for this: https://live-durhamnc.opendata.arcgis.com/pages/community-indicators
+
+8. Is the source of the data made clear? (Remember that this project can be part of your public portfolios, so people not familiar with UMD may see it).
+The purpose of your project was communicated clearly. But it would be greater if you can add clear source of the data based on the resources uploaded on Slack (e.g., handout) which the UMD presenters provided. 
+
+9. Is the interpretation of figures clearly explained?
+Yes, the interpretation of figures were clearly explained. Additionally, you can plot various kinds of artistic graphs, such as distribution, correlation, ranking, part of a whole, evolution, map, flow, and general knowledge.
+https://www.r-graph-gallery.com/index.html
+
+10. Is the purpose and interpretation of analysis steps clearly communicated?
+It would be wonderful if you can add some practical recommendations for the social workers at Urban Ministries: what knowledge can we glean from this data that would help them find ways to better understand and assist their clients? 
+
+11. Are overall take-home messages clearly communicated?
+In the presentation, the social workers said they are particularly interested in “which clients they can help make a permanent transition to self-sufficiency, and which clients continue to need help.” In this context, I suggest you perform analyses to find some patterns and differences between different types of clients. For instance, after shrinking the size of the variables through PCA, we can perform a unsupervised cluster analysis to find various types of clients and visualize meaningful patterns (e.g., compare them in terms of mean, variance, kurtosis, and skewness (e.g., parametric methods) and general shape of distribution (e.g., nonparametric methods), based off of the principle components).
