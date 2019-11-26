@@ -1,0 +1,46 @@
+to_Quanbaby_from_cwzhou_proj3.txt
+
+Hi Quan, wow this draft is well done! Good job! I have a few comments below:
+
+1. Is the project organized modularly, with Make as the workflow manager?
+Yes. This is very well organized including a helpful readme to describe how to run the program!
+
+2. Does the project use both Python (Pandas specifically) and R (Tidyverse specifically) scripts?
+Yes, the project uses Python for data wrangling and R for plots/analysis.
+
+3. Is Docker used to define execution environments appropriately?
+Yes! Great job.
+
+4. Are the plots appropriate for the data types, the hypotheses being tested, and the points being communicated?
+Yes. I am not sure it is necessary to include both a table and barplot for the client genders summary (seems redundant). Same with (5) Summary about clients veteran status.
+For age, a histogram might be better than density curve. Same for client staying days - histogram might be a better visualization.
+Overall, great job on plot titles/axis. All approrpiate and well done.
+
+5. How can the project be organized or documented more clearly?
+Honestly, the project is already well organized and documented. Kudos.
+
+One thing about the first table in the subsection "(1) Summary about EE providers", it might be easier to read if you deleted "Urban Ministries of Durham- Durham County- " from each EE provider ID.
+
+6. Is the purpose of the project communicated clearly?
+Very clear.
+
+7. Does the purpose of the project make sense from the client’s point of view? How could the project better serve the client?
+Yes, makes great sense. This will be very helpful to them!
+
+8. Is the source of the data made clear? (Remember that this project can be part of your public portfolios, so people not familiar with UMD may see it).
+Yes, this is clear. Might be a good idea to include the UMD website for some more background info.
+
+9. Is the interpretation of figures clearly explained?
+Yes. Good job including a sentence after each plot/table.
+
+The sentence "Most people left because they would gonna stay with friends for temporary tenure" is not gramatically correct. Try "Most people left to stay with friends for temporary tenure." 
+
+The sentence "The first question is about the explanotory varialbes." has a type (variables).
+
+Other typos in this section include:  explanotory, clinet, numricals.
+
+10. Is the purpose and interpretation of analysis steps clearly communicated?
+Yes. Good job for explaining each step of your analysis as well as interpretations.
+
+11. Are overall take-home messages clearly communicated?
+Yes. The last section (conclusion) summarizes the report concisely.

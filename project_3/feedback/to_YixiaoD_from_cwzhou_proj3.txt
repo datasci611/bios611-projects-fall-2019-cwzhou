@@ -1,0 +1,38 @@
+to_YixiaoD_from_cwzhou_proj3.txt
+
+Hi Yixiao,
+
+This is a good start. Here is some feedback.
+
+1. Is the project organized modularly, with Make as the workflow manager?
+The project is organized; however, descriptions of this organization can be elaborated on the README regarding the directory repo. Additionally, there is no final MAKE product (Rmd html) of an overall report. This is required for the class (even though we are not graded on it) for UMD and for putting all the images in one spot. The current Makefile only generates png files from the python and R scripts, not the overall final product.
+
+2. Does the project use both Python (Pandas specifically) and R (Tidyverse specifically) scripts?
+Yes there is a lot of Python and R. Good job!
+
+3. Is Docker used to define execution environments appropriately?
+There is no Dockerfile. Don't forget to do this before the final project submission! At minimum, you need R and Python containers.
+
+4. Are the plots appropriate for the data types, the hypotheses being tested, and the points being communicated?
+Yes there are good plots for this draft. However, interpretations would be helpful! Try putting the images together in a Rmd file and adding interpretations and conclusions of how this is useful for UMD. The plots themselves are very well done, with good axis labels and good titles. Well done.
+
+5. How can the project be organized or documented more clearly?
+As I mentioned above, being more articulate in the README regarding organization structure is a good idea. Explaining what is in what folder and how the makefile runs in terminal would be useful. Additionally, having one html Rmd file to combine all plots/analyses/interpretations/conclusions would be great. 
+
+6. Is the purpose of the project communicated clearly?
+The purpose of the project is communicated well in terms of the overall goal: "how length of stay relate to local rent price and job market". However, more interpretation would be useful in saying how they do relate, based on any plots and analyses. 
+
+7. Does the purpose of the project make sense from the client’s point of view? How could the project better serve the client?
+Yes, it makes a lot of sense. This purpose definitely is useful to the client. 
+
+8. Is the source of the data made clear? (Remember that this project can be part of your public portfolios, so people not familiar with UMD may see it).
+The data source could be more clear. Explain more on the background of what UMD is (maybe link the UMD website) so that people who do not know what UMD is will know how the data came to be.
+
+9. Is the interpretation of figures clearly explained?
+No, there needs to be more interpretation. Currently, it is just multiple plots in PNG format.
+
+10. Is the purpose and interpretation of analysis steps clearly communicated?
+A concluding paragraph would be useful, especially in explaining how the length of stay relates to  local rent price and job market. Some elaboration of analysis would be useful to test this association, rather than just plots in the folder. This is a good start but more could be done to answer the question beyond exploratory analysis.
+
+11. Are overall take-home messages clearly communicated?
+From the plots alone, it is not easy to interpret quickly the overall take-home message. Adding a few sentences of a conclusion would be helpful!
