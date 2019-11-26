@@ -1,9 +1,7 @@
----
-title: "Project 1 README"
-author: "Christina Zhou"
-date: "9/25/2019"
-output: html_document
----
+### Project 1 README
+## Christina Zhou
+## 9/25/2019
+
 This data is from Urban Ministries of Durham (UMD), which focuses on lowering the community's rate of homelessness by providing food, shelter and other resources. Their website is here: http://www.umdurham.org/.
 
 The data includes variables such as number of people in the family for which food was provided, how many pounds of food taken from the food pantry per day, and more. A full list of variables can be found here: https://github.com/biodatascience/datasci611/blob/gh-pages/data/project1_2019/UMD_Services_Provided_metadata_20190719.tsv.
