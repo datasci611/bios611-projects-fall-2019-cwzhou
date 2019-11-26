@@ -11,7 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 library(ggplot2)
 library(tidyverse)
 
-setwd("~/Desktop/611 Notes/bios611-projects-fall-2019-cwzhou/project_3/data")
+#setwd("~/Desktop/611 Notes/bios611-projects-fall-2019-cwzhou/project_3/data")
 dat = read.csv("export_dataframe.csv", header = TRUE)
 ```
 
