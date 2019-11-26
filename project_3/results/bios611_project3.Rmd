@@ -6,13 +6,13 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-#knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE)
 
-#library(ggplot2)
-#library(tidyverse)
+library(ggplot2)
+library(tidyverse)
 
 #setwd("~/Desktop/611 Notes/bios611-projects-fall-2019-cwzhou/project_3")
-dat = read.csv("data/export_dataframe.csv", header = TRUE)
+dat = read.csv("../data/export_dataframe.csv", header = TRUE)
 ```
 
 ## Introduction
