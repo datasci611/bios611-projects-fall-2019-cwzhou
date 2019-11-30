@@ -19,6 +19,6 @@ The project 3 repo is as follows: The two specific datasets of interest can be f
 
 ### HOW TO CREATE FINAL HTML OUTPUT
 
-To create the the R markdown HTML output, open the UNC Virtual Computing Lab at vcl.unc.edu and clone the following github repository: https://github.com/datasci611/bios611-projects-fall-2019-cwzhou.git
+To create the the R markdown HTML output, log into the UNC Virtual Computing Lab at vcl.unc.edu using ssh and clone the following github repository: https://github.com/datasci611/bios611-projects-fall-2019-cwzhou.git
 
 Then set the working directory to bios611-projects-fall-2019-cwzhou/project_3/scripts/. Type "make" into the command line. The R markdown HTML report output will be saved to the results folder (bios611-projects-fall-2019-cwzhou/project_3/results). To view this report, scp the file to your local machine.
