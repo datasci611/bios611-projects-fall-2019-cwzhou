@@ -15,7 +15,7 @@ Our question of interest is how does length of stay at the UMD shelter (determin
 There is a lot of potential data for this project. A list of all possible datasets can be found here: https://github.com/biodatascience/datasci611/tree/gh-pages/data/project2_2019. For this project, we focus on the following datasets: CLIENT_191102.tsv and ENTRY_EXIT_191102.tsv. After our data wrangling in python, our merged dataset is located in the data folder as export_dataframe.csv.
 
 ### Project Repo
-The project 3 repo is as follows: The two specific datasets of interest can be found in the data subfolder. Data from after wrangling can also be found here (marked as export_dataframe.csv). In the scripts subfolder, one can find the Python wrangling file (both .ipynb and .py - note: these contain the same wrangling), Makefile, Docker file, and R Markdown file. In the results folder, one will find the R Markdown HTML output after running the make command (see below for more details).
+The project 3 repo is as follows: The two specific datasets of interest can be found in the data subfolder. Data from after wrangling can also be found here (marked as export_dataframe.csv). In the scripts subfolder, one can find the Python wrangling file (both .ipynb and .py - note: these contain the same wrangling), Makefile, Docker file, and R Markdown file. In the results folder, one will find the R Markdown HTML output after running the make command (see the section below for more details).
 
 ### HOW TO CREATE FINAL HTML OUTPUT
 
