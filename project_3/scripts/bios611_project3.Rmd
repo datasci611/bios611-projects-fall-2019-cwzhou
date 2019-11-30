@@ -12,7 +12,8 @@ library(ggplot2)
 library(tidyverse)
 
 #setwd("~/Desktop/611 Notes/bios611-projects-fall-2019-cwzhou/project_3")
-dat = read.csv("../data/export_dataframe.csv", header = TRUE)
+olddat = read.csv("../data/export_dataframe.csv", header = TRUE)
+dat = read.csv("../data/final_dataframe.csv", header = TRUE)
 ```
 
 ## Introduction
@@ -21,36 +22,48 @@ Urban Ministries of Durham (UMD) is a non-profit organization that serves its co
 
 ## Data Cleaning
 
-There is a lot of data from UMD regarding who enters and exits the shelter resource of the organization. This data identifies each individual as a client, and records one's age, gender, ethnicity, race, entry and exit dates, and reasons for leaving UMD, as well as other data collection. For this project, we focus on any association between duration of stay at UMD and gender, race, ethnicity, and age at entry. We define duration of stay as number of nights spent at UMD, calculated from the date of entry and the date of exit. We merge the two datasets and preprocess the two datasets in python. For this project, we remove any data with missing data, since the fraction of those with any missing data is less than 1%. In the end, we have a total of `r nrow(dat)` observations.
+There is a lot of data from UMD regarding who enters and exits the shelter resource of the organization. This data identifies each individual as a client, and records one's age, gender, ethnicity, race, entry and exit dates, and reasons for leaving UMD, as well as other data collection. For this project, we focus on any association between duration of stay at UMD and gender, race, ethnicity, and age at entry. We define duration of stay as number of nights spent at UMD, calculated from the date of entry and the date of exit. We merge the two datasets and preprocess the two datasets in python. For this project, we remove any data with missing data, since the fraction of those with any missing data is less than 1%. Thus, the full non-missing dataset has a total of `r nrow(olddat)` observations.
 
 ## Exploratory Analysis
 
-In the section below, we look at different plots of the exploratory variables (age at entry, gender, ethnicity, and race) to get an idea of how the data looks.
+```{r gender, echo=F}
+olddat %>% group_by(Client.Ethnicity) %>%
+  summarise(c = n())
+olddat %>% group_by(Client.Primary.Race) %>%
+  summarise(c = n())
+olddat %>% group_by(Client.Gender) %>%
+  summarise(c = n())
+```
+There are more males than females, and more females than transgendered females. Since the proportion of transgengered females is very low for the full dataset of non-missing data (about `r round(17/(1260+3912+17)*100,2)`%), we removed transgendered female observations from our analysis. Likewise, from the full dataset of non-missing data, approximately `r round((8+8+13)/(8+8+13+186+4974)*100,2)`% of clients either don't know or refuse to provide their primary race, or data was not collected for primary race. Thus, since this is extremely low as well, we dropped these subjects from the analysis. Similar to the above categories, `r (3+5+6)/(5189)`
 
+Finally, we have a total of `r nrow(dat)` observations. In the section below, we look at different plots of the exploratory variables (age at entry, gender, ethnicity, and race) to get an idea of how the data looks.
 ```{r EDA}
-
 dat_noID = dat[,-c(1,2,3,4)]
 summary(dat_noID)
+```
+In the plots below, we can see that age is generally normally distributed. The age with the most number of clients is around 50. There are more people aged 50 and below than above 50.
 
+
+```{r graph1}
 dat %>%
   ggplot(aes(x=Client.Age.at.Entry)) +
   geom_bar() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))+theme_bw()
 
 dat %>%
   ggplot(aes(x=Client.Primary.Race)) +
   geom_bar() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))+theme_bw()
 
 dat %>%
   ggplot(aes(x=Client.Gender)) +
   geom_bar() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))+theme_bw()
 
 dat %>%
   ggplot(aes(x=Client.Ethnicity)) +
   geom_bar() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))+theme_bw()
 
 ```
 
