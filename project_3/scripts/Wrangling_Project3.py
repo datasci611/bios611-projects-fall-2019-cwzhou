@@ -120,6 +120,7 @@ df4.shape
 
 from pandas import DataFrame
 
-export_csv = df1.to_csv (r'/Users/zhou/Desktop/611 Notes/bios611-projects-fall-2019-cwzhou/project_3/data/export_dataframe.csv', index = None, header=True)
-final_csv = df4.to_csv (r'/Users/zhou/Desktop/611 Notes/bios611-projects-fall-2019-cwzhou/project_3/data/final_dataframe.csv', index = None, header=True)
+export_csv = df1.to_csv (r'../data/export_dataframe.csv', index = None, header=True)
+final_csv = df4.to_csv (r'../data/final_dataframe.csv', index = None, header=True)
+#/Users/zhou/Desktop/611 Notes/bios611-projects-fall-2019-cwzhou/project_3
 
