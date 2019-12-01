@@ -1,5 +1,4 @@
 FROM rocker/verse:latest
-RUN Rscript -e "install.packages('kableExtra')"
 RUN Rscript -e "install.packages('ggplot2')"
 
 FROM continuumio/anaconda3
