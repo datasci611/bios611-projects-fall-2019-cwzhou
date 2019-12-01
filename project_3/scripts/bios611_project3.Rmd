@@ -110,16 +110,10 @@ dat %>%
 
 ```
 
-Below is a plot of comparison of age at entry by gender.
-
-```{r Comparison, echo=FALSE}
-dat$Client.Gender <- as.factor(dat$Client.Gender)
-ggplot(dat, aes(x = dat$Client.Age.at.Entry)) + geom_histogram() + facet_wrap(~Client.Gender) + theme_bw()
-```
-
 ## Analysis
 
-We naively fit the simple linear regression model below to analyze the association between UMD stay duration and our covariates. We will fit a more appropriate model for the final analysis and interpret the coefficients by the final due date.
+We want to examine associations between our outcome of interest, total nights of staying at UMD, and demographic variables age in years at entry, gender, race, and ethnicity.
+To do this, we first fit four simple linear regression models to analyze the association between UMD stay duration and each of our covariates. These models are summarized below.
 
 ```{r analysis, echo=FALSE}
 mod1 = lm(formula = Total.Nights ~ Client.Gender , data = dat)
@@ -133,11 +127,14 @@ summary(mod3)
 
 mod4 = lm(formula = Total.Nights ~ Client.Primary.Race, data = dat)
 summary(mod4)
+```
 
+
+```{r full}
 mod5 = lm(formula = Total.Nights ~ Client.Gender + Client.Age.at.Entry + Client.Ethnicity + Client.Primary.Race, data = dat)
 summary(mod5)
 ```
 
 ## Conclusions
 
-Our conclusions are dependent on the final analysis.
+In conclusion, 
