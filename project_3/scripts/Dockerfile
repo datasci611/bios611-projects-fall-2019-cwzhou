@@ -3,5 +3,4 @@ FROM continuumio/anaconda3
 
 RUN conda install -c conda-forge statsmodels
 
-RUN install2.r --error --dep TRUE \
-kableExtra
+RUN R -e "install.packages('kableExtra', repos = 'http://cran.us.r-project.org')"
