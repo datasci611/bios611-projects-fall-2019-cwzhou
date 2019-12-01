@@ -2,7 +2,6 @@ FROM rocker/verse:3.5.1
 RUN Rscript -e "install.packages('kableExtra')"
 RUN Rscript -e "install.packages('ggplot2')"
 RUN Rscript -e "install.packages('dplyr')"
-RUN Rscript -e "install.packages('knitr')"
 
 FROM continuumio/anaconda3
 RUN conda install -c conda-forge statsmodels
