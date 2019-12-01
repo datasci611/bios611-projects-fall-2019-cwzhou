@@ -1,4 +1,4 @@
-FROM rocker/verse:3.5.1
+FROM rocker/verse:latest
 RUN Rscript -e "install.packages('kableExtra')"
 RUN Rscript -e "install.packages('ggplot2')"
 
