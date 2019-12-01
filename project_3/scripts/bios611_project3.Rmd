@@ -73,53 +73,59 @@ summary(dat_cts)
 ```
 
 ```{r graph1, echo=FALSE}
+dat %>%
+  ggplot(aes(x=Total.Nights)) +
+  geom_bar(fill = "slateblue2") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))+theme_bw()+labs(title="Histogram of Client's Total Nights Spent at UMD",
+        x ="Number of Nights", y = "Count")
 
 dat %>%
   ggplot(aes(x=Client.Age.at.Entry)) +
-  geom_bar() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))+theme_bw()
-
-dat %>%
-  ggplot(aes(x=Total.Nights)) +
-  geom_bar() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))+theme_bw()
+  geom_bar(fill = "mediumpurple") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))+theme_bw()+labs(title="Histogram of Client's Age at UMD Entry",
+        x ="Age (years)", y = "Count")
 
 table(dat$Client.Primary.Race) %>% kable()%>%
   kable_styling()
 
 dat %>%
   ggplot(aes(x=Client.Primary.Race)) +
-  geom_bar() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+  geom_bar(fill = "mediumpurple") +
+  theme_bw()+labs(title="Bar Plot of Client's Primary Race",
+        x ="Race", y = "Count")
 
 table(dat$Client.Gender) %>% kable()%>%
   kable_styling()
 
 dat %>%
   ggplot(aes(x=Client.Gender)) +
-  geom_bar() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))+theme_bw()
+  geom_bar(fill = "mediumpurple") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))+theme_bw()+labs(title="Bar Plot of Client's Gender",
+        x ="Gender", y = "Count")
 
 table(dat$Client.Ethnicity) %>% kable()%>%
   kable_styling()
 
 dat %>%
   ggplot(aes(x=Client.Ethnicity)) +
-  geom_bar() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))+theme_bw()
+  geom_bar(fill = "mediumpurple") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))+theme_bw()+labs(title="Bar Plot of Client's Ethnicity",
+        x ="Ethnicity", y = "Count")
 
 ```
 
 ## Analysis
 
 We want to examine associations between our outcome of interest, total nights of staying at UMD, and demographic variables age in years at entry, gender, race, and ethnicity.
-To do this, we first fit four simple linear regression models to analyze the association between UMD stay duration and each of our covariates. These models are summarized below.
+To do this, we first fit four simple linear regression models to analyze the association between UMD stay duration and each of our covariates indiviudally. These models are summarized below. The indiviudal models for age at entry, gender (reference = female), and ethnicity (reference = Hispanic/Latino) show significant respective explanatory variable effects. The model for race effect (reference = Black or African American) is not significant.
+
+In many previous studies, it has been shown that gender and age are usually confounders for each other. Thus, for this simple analysis, we include both age and gender in our model to account for the confounding effect of age on gender. 
 
 ```{r analysis, echo=FALSE}
-mod1 = lm(formula = Total.Nights ~ Client.Gender , data = dat)
+mod1 = lm(formula = Total.Nights ~ Client.Age.at.Entry, data = dat)
 summary(mod1)
 
-mod2 = lm(formula = Total.Nights ~ Client.Age.at.Entry, data = dat)
+mod2 = lm(formula = Total.Nights ~ Client.Gender , data = dat)
 summary(mod2)
 
 mod3 = lm(formula = Total.Nights ~ Client.Ethnicity, data = dat)
