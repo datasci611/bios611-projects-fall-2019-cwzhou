@@ -146,7 +146,7 @@ summary(mod4)
 
 Next, we look at the joint effects of these factors by fitting a multivariable GLM. The results show that race is not statistically significant. Removing this variable from the model and fitting another model with just age, gender, and ethnicity, we can see that all the variables are statistically significant. Note that the magnitude of the effects in the multivariable model are similar to the univariate analysis result effects. This indicates that the other variables in the model did not explain the association between the UMD nights spent and each variable of interest; thus it appears that the effects of the variables on UMD nights are independent of each other. Thus we can conclude that age at entry, gender, and ethnicity are independently associated with UMD duration of stay.
 
-```{r full}
+```{r full, echo=FALSE}
 mod5 = glm(formula = Total.Nights ~ Client.Gender + Client.Age.at.Entry + Client.Ethnicity + Client.Primary.Race, family=poisson(link="log"),data = dat)
 summary(mod5)
 
@@ -156,4 +156,5 @@ summary(mod6)
 
 ## Conclusions
 
-In conclusion, 
+In conclusion, most people who visited UMD were Black or African American, Male, and non-Hispanic/non-Latino. There are more people aged 50 and below, than above 50. From our model analysis, we saw that gender, age at entry, and ethnicity were all associated with UMD nights spent. However, race was not statistically significant associated with nights spent at UMD.
+
