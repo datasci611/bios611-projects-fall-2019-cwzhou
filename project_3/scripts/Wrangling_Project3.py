@@ -14,7 +14,7 @@ client = pd.read_csv('https://raw.githubusercontent.com/biodatascience/datasci61
 visit = pd.read_csv('https://raw.githubusercontent.com/biodatascience/datasci611/gh-pages/data/project2_2019/ENTRY_EXIT_191102.tsv',sep='\t')
 
 #client.head()
-#visit.head()
+#visit.head() 
 
 #change Entry and Exit dates to datetime, then create OUTCOME variable (Total.Nights)
 visit['Entry'] =  pd.to_datetime(visit['Entry Date'], format='%m/%d/%Y')
