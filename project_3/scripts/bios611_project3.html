@@ -380,113 +380,195 @@ $(document).ready(function () {
 </div>
 <div id="analysis" class="section level2">
 <h2>Analysis</h2>
-<p>We want to examine associations between our outcome of interest, total nights of staying at UMD, and demographic variables age in years at entry, gender, race, and ethnicity. To do this, we first fit four simple linear regression models to analyze the association between UMD stay duration and each of our covariates indiviudally. These models are summarized below. The indiviudal models for age at entry, gender (reference = female), and ethnicity (reference = Hispanic/Latino) show significant respective explanatory variable effects. The model for race effect (reference = Black or African American) is not significant.</p>
-<p>In many previous studies, it has been shown that gender and age are usually confounders for each other. Thus, for this simple analysis, we include both age and gender in our model to account for the confounding effect of age on gender.</p>
+<p>We want to examine associations between our outcome of interest, total nights of staying at UMD, and demographic variables age in years at entry, gender, race, and ethnicity. Since our outcome is total nights spent at UMD, it is count data. We first fit a univariate poisson regression model for age.</p>
 <pre><code>## 
 ## Call:
-## lm(formula = Total.Nights ~ Client.Age.at.Entry, data = dat)
+## glm(formula = Total.Nights ~ Client.Age.at.Entry, family = poisson, 
+##     data = dat)
 ## 
-## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -23.922 -17.447  -9.272   9.141  84.874 
+## Deviance Residuals: 
+##    Min      1Q  Median      3Q     Max  
+## -6.925  -4.532  -2.160   1.826  13.291  
 ## 
 ## Coefficients:
-##                     Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)         18.55870    1.26005  14.729  &lt; 2e-16 ***
-## Client.Age.at.Entry  0.08252    0.02763   2.986  0.00284 ** 
+##                      Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)         2.9339066  0.0113749  257.93   &lt;2e-16 ***
+## Client.Age.at.Entry 0.0037403  0.0002464   15.18   &lt;2e-16 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 23.94 on 4599 degrees of freedom
-## Multiple R-squared:  0.001935,   Adjusted R-squared:  0.001718 
-## F-statistic: 8.916 on 1 and 4599 DF,  p-value: 0.002841</code></pre>
+## (Dispersion parameter for poisson family taken to be 1)
+## 
+##     Null deviance: 103177  on 4600  degrees of freedom
+## Residual deviance: 102946  on 4599  degrees of freedom
+## AIC: 122735
+## 
+## Number of Fisher Scoring iterations: 5</code></pre>
+<p>However, the residual deviance (102946) was much larger than the degrees of freedom (4599); therefore, we choose to fit a generalized linear model with log-link and robust variance instead.</p>
+<p>We thus fit a generalized linear model with log-link with robust variance. To do this, we first conduct univariate analysis by fitting four separate models to analyze the association between UMD stay duration and each of our covariates individually. These models are summarized below. This shows us the unadjusted crude association between UMD count of nights spent at UMD and each covariate. The indiviudal models for age at entry, gender (reference = female), and ethnicity (reference = Hispanic/Latino) show significant effects of these factors on UMD stay duration. The race effect (reference = Black or African American) is not statistically significant.</p>
 <pre><code>## 
 ## Call:
-## lm(formula = Total.Nights ~ Client.Gender, data = dat)
+## glm(formula = Total.Nights ~ Client.Age.at.Entry, family = poisson(link = &quot;log&quot;), 
+##     data = dat)
 ## 
-## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -24.596 -17.407  -9.407   8.593  83.593 
+## Deviance Residuals: 
+##    Min      1Q  Median      3Q     Max  
+## -6.925  -4.532  -2.160   1.826  13.291  
 ## 
 ## Coefficients:
-##                   Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)        24.5962     0.7207  34.129  &lt; 2e-16 ***
-## Client.GenderMale  -3.1895     0.8264  -3.859 0.000115 ***
+##                      Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)         2.9339066  0.0113749  257.93   &lt;2e-16 ***
+## Client.Age.at.Entry 0.0037403  0.0002464   15.18   &lt;2e-16 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 23.92 on 4599 degrees of freedom
-## Multiple R-squared:  0.003228,   Adjusted R-squared:  0.003012 
-## F-statistic:  14.9 on 1 and 4599 DF,  p-value: 0.0001152</code></pre>
+## (Dispersion parameter for poisson family taken to be 1)
+## 
+##     Null deviance: 103177  on 4600  degrees of freedom
+## Residual deviance: 102946  on 4599  degrees of freedom
+## AIC: 122735
+## 
+## Number of Fisher Scoring iterations: 5</code></pre>
 <pre><code>## 
 ## Call:
-## lm(formula = Total.Nights ~ Client.Ethnicity, data = dat)
+## glm(formula = Total.Nights ~ Client.Gender, family = poisson(link = &quot;log&quot;), 
+##     data = dat)
 ## 
-## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -22.338 -17.338  -9.338   8.662  82.662 
+## Deviance Residuals: 
+##    Min      1Q  Median      3Q     Max  
+## -7.014  -4.625  -2.219   1.750  12.914  
 ## 
 ## Coefficients:
-##                                               Estimate Std. Error t value
-## (Intercept)                                     17.719      1.853   9.562
-## Client.EthnicityNon-Hispanic/Non-Latino (HUD)    4.620      1.888   2.447
-##                                               Pr(&gt;|t|)    
+##                    Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)        3.202592   0.006074  527.26   &lt;2e-16 ***
+## Client.GenderMale -0.138888   0.007088  -19.59   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for poisson family taken to be 1)
+## 
+##     Null deviance: 103177  on 4600  degrees of freedom
+## Residual deviance: 102801  on 4599  degrees of freedom
+## AIC: 122590
+## 
+## Number of Fisher Scoring iterations: 5</code></pre>
+<pre><code>## 
+## Call:
+## glm(formula = Total.Nights ~ Client.Ethnicity, family = poisson(link = &quot;log&quot;), 
+##     data = dat)
+## 
+## Deviance Residuals: 
+##    Min      1Q  Median      3Q     Max  
+## -6.684  -4.439  -2.145   1.730  13.216  
+## 
+## Coefficients:
+##                                               Estimate Std. Error z value
+## (Intercept)                                    2.87461    0.01838  156.37
+## Client.EthnicityNon-Hispanic/Non-Latino (HUD)  0.23169    0.01866   12.42
+##                                               Pr(&gt;|z|)    
 ## (Intercept)                                     &lt;2e-16 ***
-## Client.EthnicityNon-Hispanic/Non-Latino (HUD)   0.0144 *  
+## Client.EthnicityNon-Hispanic/Non-Latino (HUD)   &lt;2e-16 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 23.95 on 4599 degrees of freedom
-## Multiple R-squared:  0.001301,   Adjusted R-squared:  0.001083 
-## F-statistic:  5.99 on 1 and 4599 DF,  p-value: 0.01443</code></pre>
+## (Dispersion parameter for poisson family taken to be 1)
+## 
+##     Null deviance: 103177  on 4600  degrees of freedom
+## Residual deviance: 103011  on 4599  degrees of freedom
+## AIC: 122800
+## 
+## Number of Fisher Scoring iterations: 5</code></pre>
 <pre><code>## 
 ## Call:
-## lm(formula = Total.Nights ~ Client.Primary.Race, data = dat)
+## glm(formula = Total.Nights ~ Client.Primary.Race, family = poisson(link = &quot;log&quot;), 
+##     data = dat)
 ## 
-## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -22.214 -17.214  -9.155   8.845  82.845 
+## Deviance Residuals: 
+##    Min      1Q  Median      3Q     Max  
+## -6.665  -4.418  -2.109   1.771  12.691  
 ## 
 ## Coefficients:
-##                          Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)              22.15467    0.41327  53.608   &lt;2e-16 ***
-## Client.Primary.RaceOther  0.05921    0.79639   0.074    0.941    
+##                          Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)              3.098048   0.003664 845.518   &lt;2e-16 ***
+## Client.Primary.RaceOther 0.002669   0.007054   0.378    0.705    
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 23.96 on 4599 degrees of freedom
-## Multiple R-squared:  1.202e-06,  Adjusted R-squared:  -0.0002162 
-## F-statistic: 0.005528 on 1 and 4599 DF,  p-value: 0.9407</code></pre>
-<pre class="r"><code>mod5 = lm(formula = Total.Nights ~ Client.Gender + Client.Age.at.Entry + Client.Ethnicity + Client.Primary.Race, data = dat)
+## (Dispersion parameter for poisson family taken to be 1)
+## 
+##     Null deviance: 103177  on 4600  degrees of freedom
+## Residual deviance: 103177  on 4599  degrees of freedom
+## AIC: 122966
+## 
+## Number of Fisher Scoring iterations: 5</code></pre>
+<p>Next, we look at the joint effects of these factors by fitting a multivariable GLM. The results show that race is not statistically significant. Removing this variable from the model and fitting another model with just age, gender, and ethnicity, we can see that all the variables are statistically significant. Note that the magnitude of the effects in the multivariable model are similar to the univariate analysis result effects. This indicates that the other variables in the model did not explain the association between the UMD nights spent and each variable of interest; thus it appears that the effects of the variables on UMD nights are independent of each other. Thus we can conclude that age at entry, gender, and ethnicity are independently associated with UMD duration of stay.</p>
+<pre class="r"><code>mod5 = glm(formula = Total.Nights ~ Client.Gender + Client.Age.at.Entry + Client.Ethnicity + Client.Primary.Race, family=poisson(link=&quot;log&quot;),data = dat)
 summary(mod5)</code></pre>
 <pre><code>## 
 ## Call:
-## lm(formula = Total.Nights ~ Client.Gender + Client.Age.at.Entry + 
-##     Client.Ethnicity + Client.Primary.Race, data = dat)
+## glm(formula = Total.Nights ~ Client.Gender + Client.Age.at.Entry + 
+##     Client.Ethnicity + Client.Primary.Race, family = poisson(link = &quot;log&quot;), 
+##     data = dat)
 ## 
-## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -25.832 -17.204  -9.284   8.904  85.821 
+## Deviance Residuals: 
+##    Min      1Q  Median      3Q     Max  
+## -7.101  -4.492  -2.167   1.807  13.562  
 ## 
 ## Coefficients:
-##                                               Estimate Std. Error t value
-## (Intercept)                                   16.35919    2.39894   6.819
-## Client.GenderMale                             -3.32735    0.83297  -3.995
-## Client.Age.at.Entry                            0.09202    0.02769   3.323
-## Client.EthnicityNon-Hispanic/Non-Latino (HUD)  4.39909    1.94457   2.262
-## Client.Primary.RaceOther                       0.27661    0.82172   0.337
-##                                               Pr(&gt;|t|)    
-## (Intercept)                                   1.03e-11 ***
-## Client.GenderMale                             6.58e-05 ***
-## Client.Age.at.Entry                           0.000896 ***
-## Client.EthnicityNon-Hispanic/Non-Latino (HUD) 0.023729 *  
-## Client.Primary.RaceOther                      0.736416    
+##                                                 Estimate Std. Error
+## (Intercept)                                    2.8079779  0.0228461
+## Client.GenderMale                             -0.1447679  0.0071626
+## Client.Age.at.Entry                            0.0041440  0.0002468
+## Client.EthnicityNon-Hispanic/Non-Latino (HUD)  0.2204345  0.0191521
+## Client.Primary.RaceOther                       0.0114810  0.0072667
+##                                               z value Pr(&gt;|z|)    
+## (Intercept)                                    122.91   &lt;2e-16 ***
+## Client.GenderMale                              -20.21   &lt;2e-16 ***
+## Client.Age.at.Entry                             16.79   &lt;2e-16 ***
+## Client.EthnicityNon-Hispanic/Non-Latino (HUD)   11.51   &lt;2e-16 ***
+## Client.Primary.RaceOther                         1.58    0.114    
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 23.89 on 4596 degrees of freedom
-## Multiple R-squared:  0.00677,    Adjusted R-squared:  0.005906 
-## F-statistic: 7.832 on 4 and 4596 DF,  p-value: 2.751e-06</code></pre>
+## (Dispersion parameter for poisson family taken to be 1)
+## 
+##     Null deviance: 103177  on 4600  degrees of freedom
+## Residual deviance: 102370  on 4596  degrees of freedom
+## AIC: 122165
+## 
+## Number of Fisher Scoring iterations: 5</code></pre>
+<pre class="r"><code>mod6 = glm(formula = Total.Nights ~ Client.Gender + Client.Age.at.Entry + Client.Ethnicity, family=poisson(link=&quot;log&quot;),data = dat)
+summary(mod6)</code></pre>
+<pre><code>## 
+## Call:
+## glm(formula = Total.Nights ~ Client.Gender + Client.Age.at.Entry + 
+##     Client.Ethnicity, family = poisson(link = &quot;log&quot;), data = dat)
+## 
+## Deviance Residuals: 
+##    Min      1Q  Median      3Q     Max  
+## -7.114  -4.489  -2.156   1.808  13.546  
+## 
+## Coefficients:
+##                                                 Estimate Std. Error
+## (Intercept)                                    2.8183681  0.0218718
+## Client.GenderMale                             -0.1459618  0.0071228
+## Client.Age.at.Entry                            0.0041462  0.0002468
+## Client.EthnicityNon-Hispanic/Non-Latino (HUD)  0.2137140  0.0186740
+##                                               z value Pr(&gt;|z|)    
+## (Intercept)                                    128.86   &lt;2e-16 ***
+## Client.GenderMale                              -20.49   &lt;2e-16 ***
+## Client.Age.at.Entry                             16.80   &lt;2e-16 ***
+## Client.EthnicityNon-Hispanic/Non-Latino (HUD)   11.44   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for poisson family taken to be 1)
+## 
+##     Null deviance: 103177  on 4600  degrees of freedom
+## Residual deviance: 102373  on 4597  degrees of freedom
+## AIC: 122165
+## 
+## Number of Fisher Scoring iterations: 5</code></pre>
 </div>
 <div id="conclusions" class="section level2">
 <h2>Conclusions</h2>
