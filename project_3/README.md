@@ -4,7 +4,7 @@
 
 ### Purpose and Background
 
-The purpose of project 3 is to use different data science toolkits to examine collected real life data. This data is from the shelter side of Urban Ministries of Durham (UMD), an organization that focuses on lowering the community's rate of homelessness by providing food, shelter and other resources. More information can be found at http://www.umdurham.org/. Our goal is to use Makefile to organize the analysis in a way that allows future repetition easily accessible (ultimately, making a HTML version of the Rmd file), Docker to make it easy for different machines to run the same analysis with the same necessary packages, Python to wrangle the data, and Rmd to plot figures and run analysis.
+The purpose of project 3 is to use different data science toolkits to examine collected real life data. This data is from the shelter side of Urban Ministries of Durham (UMD), an organization that focuses on lowering the community's rate of homelessness by providing food, shelter and other resources. More information can be found on their [website](http://www.umdurham.org/). Our goal is to use Makefile to organize the analysis in a way that allows future repetition easily accessible (ultimately, making a HTML version of the Rmd file), Docker to make it easy for different machines to run the same analysis with the same necessary packages, Python to wrangle the data, and Rmd to plot figures and run analysis.
 
 ### Aim
 
