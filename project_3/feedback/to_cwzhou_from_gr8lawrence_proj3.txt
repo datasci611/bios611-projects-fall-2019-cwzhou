@@ -1,0 +1,5 @@
+score: 15/15
+
+Thank you for your feedbacks! I kept your points of fixing the plot axis labels and
+adding more elaborations in mind while making the markdown files. I also attempted
+at explaining the drawbacks of my analysis and hoped that they were adequate.
